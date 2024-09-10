@@ -44,3 +44,7 @@ h6 {
 /*
 MAIN
 */
+
+#body {
+  height: 100vh;
+}

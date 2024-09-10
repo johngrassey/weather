@@ -4,8 +4,10 @@ async function getWeather(address) {
   );
   const weather = await response.json();
   console.log(weather);
-  todayWeather(weather);
-  fiveDayForecast(weather);
+  const today = todayWeather(weather);
+  const forecast = fiveDayForecast(weather);
+
+  return { today, forecast };
 }
 
 function todayWeather(weather) {
@@ -14,7 +16,7 @@ function todayWeather(weather) {
     temp: weather.currentConditions.temp,
     feelsLike: weather.currentConditions.feelslike,
   };
-  console.log(currentConditions);
+  return currentConditions;
 }
 
 function fiveDayForecast(weather) {
@@ -25,12 +27,27 @@ function fiveDayForecast(weather) {
       conditions: weather.days[i].conditions,
       lowTemp: weather.days[i].tempmin,
       highTemp: weather.days[i].tempmax,
-      feelsLike: weather.days[i].feelslike,
       description: weather.days[i].description,
     };
     forecast.push(futureConditions);
   }
-  console.log(forecast);
+  return forecast;
 }
 
-getWeather("01520");
+const form = document.querySelector("form");
+const locationInput = document.querySelector("input#location");
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const location = locationInput.value;
+  renderPage(location);
+});
+
+async function renderPage(location) {
+  const weather = await getWeather(location);
+  const todayTemp = document.querySelector(".todaytemp");
+  todayTemp.textContent = weather.today.temp + "°";
+
+  const todayDesc = document.querySelector(".todaydesc");
+  todayDesc.textContent = weather.today.conditions;
+}
