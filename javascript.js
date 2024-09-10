@@ -3,6 +3,7 @@ async function getWeather(address) {
     `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${address}?key=A55MNK7S97VENY2ZUEWCWZSZR`
   );
   const weather = await response.json();
+  console.log(weather);
   const today = todayWeather(weather);
   const forecast = fiveDayForecast(weather);
 
@@ -26,7 +27,7 @@ function fiveDayForecast(weather) {
       conditions: weather.days[i].conditions,
       lowTemp: weather.days[i].tempmin,
       highTemp: weather.days[i].tempmax,
-      description: weather.days[i].description,
+      description: weather.days[i].conditions,
     };
     forecast.push(futureConditions);
   }
@@ -56,7 +57,28 @@ async function renderPage(location) {
   const forecastDiv = document.querySelector(".forecast");
   for (days in forecast) {
     const day = document.createElement("div");
+    day.classList.add("day");
     day.textContent = forecast[days].date;
+
+    const description = document.createElement("div");
+    description.classList.add("description");
+    description.textContent = forecast[days].description;
+    day.appendChild(description);
+
+    const temps = document.createElement("div");
+    temps.classList.add("temps");
+
+    const highTemp = document.createElement("div");
+    highTemp.classList.add("hightemp");
+    highTemp.textContent = forecast[days].highTemp;
+    temps.appendChild(highTemp);
+
+    const lowTemp = document.createElement("div");
+    lowTemp.classList.add("hightemp");
+    lowTemp.textContent = forecast[days].lowTemp;
+    temps.appendChild(lowTemp);
+
+    day.appendChild(temps);
     forecastDiv.appendChild(day);
   }
 }

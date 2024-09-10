@@ -72,3 +72,13 @@ MAIN
 .forecast div {
   background-color: #f6f6f8;
 }
+
+.day {
+  display: flex;
+  flex-direction: column;
+}
+
+.temps {
+  display: flex;
+  gap: 5px;
+}
