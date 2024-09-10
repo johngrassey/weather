@@ -15,6 +15,7 @@ function todayWeather(weather) {
     conditions: weather.currentConditions.conditions,
     temp: weather.currentConditions.temp,
     feelsLike: weather.currentConditions.feelslike,
+    icon: `icons/${weather.currentConditions.icon}.svg`,
   };
   return currentConditions;
 }
@@ -28,6 +29,7 @@ function fiveDayForecast(weather) {
       lowTemp: weather.days[i].tempmin,
       highTemp: weather.days[i].tempmax,
       description: weather.days[i].conditions,
+      icon: `icons/${weather.days[i].icon}.svg`,
     };
     forecast.push(futureConditions);
   }
@@ -47,6 +49,8 @@ async function renderPage(location) {
   const weather = await getWeather(location);
   const today = todayWeather(weather);
 
+  const todayIcon = document.querySelector("img.todayicon");
+  todayIcon.setAttribute("src", today.icon);
   const todayTemp = document.querySelector(".todaytemp");
   todayTemp.textContent = today.temp + "°";
   const todayDesc = document.querySelector(".todaydesc");
@@ -59,6 +63,11 @@ async function renderPage(location) {
     const day = document.createElement("div");
     day.classList.add("day");
     day.textContent = forecast[days].date;
+
+    const icon = document.createElement("img");
+    icon.classList.add("forecastimg");
+    icon.setAttribute("src", forecast[days].icon);
+    day.appendChild(icon);
 
     const description = document.createElement("div");
     description.classList.add("description");

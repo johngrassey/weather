@@ -56,6 +56,9 @@ MAIN
   background-color: #f6f6f8;
 }
 
+.todayicon {
+  width: 16rem;
+}
 .todaytemp {
   font-size: 8rem;
 }
