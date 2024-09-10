@@ -47,4 +47,28 @@ MAIN
 
 #body {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#header {
+  padding: 20px;
+  background-color: #f6f6f8;
+}
+
+.todaytemp {
+  font-size: 8rem;
+}
+
+.todaydesc {
+  font-size: 3rem;
+}
+
+.forecast {
+  display: flex;
+  gap: 10px;
+}
+
+.forecast div {
+  background-color: #f6f6f8;
 }

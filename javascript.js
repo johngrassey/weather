@@ -3,11 +3,10 @@ async function getWeather(address) {
     `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${address}?key=A55MNK7S97VENY2ZUEWCWZSZR`
   );
   const weather = await response.json();
-  console.log(weather);
   const today = todayWeather(weather);
   const forecast = fiveDayForecast(weather);
 
-  return { today, forecast };
+  return weather;
 }
 
 function todayWeather(weather) {
@@ -45,9 +44,21 @@ form.addEventListener("submit", (event) => {
 
 async function renderPage(location) {
   const weather = await getWeather(location);
-  const todayTemp = document.querySelector(".todaytemp");
-  todayTemp.textContent = weather.today.temp + "°";
+  const today = todayWeather(weather);
 
+  const todayTemp = document.querySelector(".todaytemp");
+  todayTemp.textContent = today.temp + "°";
   const todayDesc = document.querySelector(".todaydesc");
-  todayDesc.textContent = weather.today.conditions;
+  todayDesc.textContent = today.conditions;
+
+  const forecast = fiveDayForecast(weather);
+
+  const forecastDiv = document.querySelector(".forecast");
+  for (days in forecast) {
+    const day = document.createElement("div");
+    day.textContent = forecast[days].date;
+    forecastDiv.appendChild(day);
+  }
 }
+
+renderPage("01520");
