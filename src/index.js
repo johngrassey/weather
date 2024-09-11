@@ -8,7 +8,6 @@ async function getWeather(address) {
     { mode: "cors" }
   );
   const weather = await response.json();
-  console.log(weather);
   const today = todayWeather(weather);
   const forecast = fiveDayForecast(weather);
 
