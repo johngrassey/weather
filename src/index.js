@@ -29,7 +29,6 @@ function fiveDayForecast(weather) {
   const forecast = [];
   for (let i = 0; i <= 5; i++) {
     const futureConditions = {
-      //date: weather.days[i].datetime,
       date: parse(weather.days[i].datetime, "yyyy-MM-dd", new Date()),
       conditions: weather.days[i].conditions,
       lowTemp: weather.days[i].tempmin,
@@ -42,8 +41,10 @@ function fiveDayForecast(weather) {
   return forecast;
 }
 
+// FORM CODE //
 const form = document.querySelector("form");
 const locationInput = document.querySelector("input#location");
+let location = "Holden, MA";
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -51,24 +52,63 @@ form.addEventListener("submit", (event) => {
   renderPage(location);
 });
 
+// TEMP BUTTON CODE //
+
+const farenheitBtn = document.querySelector(".farenheit");
+const celsiusBtn = document.querySelector(".celsius");
+let tempScale = "farenheit";
+
+function tempConversion(temp, scale) {
+  if (scale === "celsius") {
+    return ((temp - 32) * (5 / 9)).toFixed(1);
+  } else {
+    return temp;
+  }
+}
+
+farenheitBtn.addEventListener("click", () => {
+  tempScale = "farenheit";
+  renderPage(location);
+});
+celsiusBtn.addEventListener("click", () => {
+  tempScale = "celsius";
+  renderPage(location);
+});
+
+// RENDER PAGE //
+
 async function renderPage(location) {
   const weather = await getWeather(location);
   const today = todayWeather(weather);
 
+  // RENDER HEADER //
+  const locationHeader = document.querySelector("h3");
+  locationHeader.textContent = `Weather for ${weather.resolvedAddress}`;
+
   const todayIcon = document.querySelector("img.todayicon");
   todayIcon.setAttribute("src", today.icon);
   const todayTemp = document.querySelector(".todaytemp");
-  todayTemp.textContent = today.temp + "°";
+  todayTemp.textContent = tempConversion(today.temp, tempScale) + "°";
   const todayDesc = document.querySelector(".todaydesc");
   todayDesc.textContent = today.conditions;
 
   const forecast = fiveDayForecast(weather);
 
   const forecastDiv = document.querySelector(".forecast");
+  forecastDiv.innerHTML = "";
   for (const days of forecast) {
     const day = document.createElement("div");
     day.classList.add("day");
-    day.textContent = format(days.date, "eeee");
+
+    const weekday = document.createElement("div");
+    weekday.classList.add("weekday");
+    weekday.textContent = format(days.date, "eeee");
+    day.appendChild(weekday);
+
+    const date = document.createElement("div");
+    date.classList.add("date");
+    date.textContent = format(days.date, "MMM dd");
+    day.appendChild(date);
 
     const icon = document.createElement("img");
     icon.classList.add("forecastimg");
@@ -85,12 +125,12 @@ async function renderPage(location) {
 
     const highTemp = document.createElement("div");
     highTemp.classList.add("hightemp");
-    highTemp.textContent = days.highTemp;
+    highTemp.textContent = tempConversion(days.highTemp, tempScale) + "°";
     temps.appendChild(highTemp);
 
     const lowTemp = document.createElement("div");
-    lowTemp.classList.add("hightemp");
-    lowTemp.textContent = days.lowTemp;
+    lowTemp.classList.add("lowtemp");
+    lowTemp.textContent = tempConversion(days.lowTemp, tempScale) + "°";
     temps.appendChild(lowTemp);
 
     day.appendChild(temps);
@@ -98,4 +138,4 @@ async function renderPage(location) {
   }
 }
 
-renderPage("01520");
+renderPage(location);

@@ -45,43 +45,116 @@ h6 {
 MAIN
 */
 
+button {
+  cursor: pointer;
+}
+
 #body {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: #e8e8ee;
+  font-family: "Montserrat", sans-serif;
 }
 
 #header {
   padding: 20px;
-  background-color: #f6f6f8;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+}
+
+h1 {
+  margin-bottom: 5px;
+}
+
+h3 {
+  font-style: italic;
+  font-weight: 500;
+}
+
+.temp {
+  border-style: none;
+  border-radius: 20px;
+  height: 40px;
+  width: 40px;
+  background-color: #e8e8ee;
+}
+
+.temp:hover {
+  background-color: #d0d0d6;
+}
+
+.rightmenu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.today {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .todayicon {
-  width: 16rem;
+  width: 12rem;
 }
 .todaytemp {
   font-size: 8rem;
+  text-align: center;
 }
 
 .todaydesc {
   font-size: 3rem;
+  text-align: center;
 }
+
+/* FORECAST */
 
 .forecast {
   display: flex;
-  gap: 10px;
-}
-
-.forecast div {
-  background-color: #f6f6f8;
+  gap: 20px;
 }
 
 .day {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  background-color: white;
+  width: 175px;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.weekday {
+  font-weight: 700;
+}
+
+.forecastimg {
+  width: 4rem;
+  margin: 12px;
 }
 
 .temps {
   display: flex;
   gap: 5px;
+  margin: 5px;
+}
+
+.hightemp {
+  font-weight: 700;
+}
+
+.description {
+  text-align: center;
 }
